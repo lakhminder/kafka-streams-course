@@ -18,6 +18,12 @@ import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ *  refer pushNewInputRecord() for creating input
+ *  refer readOutput() for reading the o/p
+ *  see the usage of OutputVerifier to compare KV pairs in test method
+ *
+ */
 public class WordCountAppTest {
 
     TopologyTestDriver testDriver;

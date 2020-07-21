@@ -1,5 +1,6 @@
 package com.github.simplesteph.udemy.kafka.streams;
 
+import java.time.Instant;
 import java.util.Properties;
 import java.util.Arrays;
 
@@ -30,6 +31,7 @@ public class WordCountApp {
                 .flatMapValues(textLine -> Arrays.asList(textLine.split("\\W+")))
                 // 4 - select key to apply a key (we discard the old key)
                 .selectKey((key, word) -> word)
+                //.peek((key, value) -> print(key, value))
                 // 5 - group by key before aggregation
                 .groupByKey()
                 // 6 - count occurences
@@ -41,6 +43,10 @@ public class WordCountApp {
         return builder.build();
     }
 
+    private void print(String key, String value) {
+        System.out.println(Instant.now() + "Key:" + key + " value:" + value);
+    }
+
     public static void main(String[] args) {
         Properties config = new Properties();
         config.put(StreamsConfig.APPLICATION_ID_CONFIG, "wordcount-application");
@@ -48,6 +54,9 @@ public class WordCountApp {
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         config.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+
+        // Exactly once processing!! copied from bank balance app
+        //config.put(StreamsConfig.PROCESSING_GUARANTEE_CONFIG, StreamsConfig.EXACTLY_ONCE);
 
         WordCountApp wordCountApp = new WordCountApp();
 
