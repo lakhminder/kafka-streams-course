@@ -57,6 +57,8 @@ public class WordCountApp {
 
         // Exactly once processing!! copied from bank balance app
         //config.put(StreamsConfig.PROCESSING_GUARANTEE_CONFIG, StreamsConfig.EXACTLY_ONCE);
+        //To configure Stream threads per instance
+        //config.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, 2);
 
         WordCountApp wordCountApp = new WordCountApp();
 
